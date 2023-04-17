@@ -8,7 +8,6 @@ int nCr(int n, int r)
     return fact(n) / (fact(r) * fact(n - r));
 }
  
-// Returns factorial of n
 int fact(int n)
 {
       if(n==0)
@@ -26,3 +25,4 @@ int main()
     cout << nCr(n, r);
     return 0;
 }
+///End code here at this point
