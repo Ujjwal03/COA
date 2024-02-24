@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-Time Data Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>          
+<body>
+  <canvas id="realTimeChart" width="400" height="200"></canvas>
+
+  <script>
+    // Initialize Chart.js
+    var ctx = document.getElementById('realTimeChart').getContext('2d');
+    var realTimeChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Real-Time Data',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+          data: [],
+          fill: false
+        }]
+      },
+      options: {
+        scales: {
+          x: [{
+            type: 'linear',
+            position: 'bottom'
+          }]
+        }
+      }
+    });
+
+    function updateChart(newData) {
+      realTimeChart.data.labels.push(newData.label);
+      realTimeChart.data.datasets[0].data.push(newData.value);
+
+  
+      if (realTimeChart.data.labels.length > 10) {
+        realTimeChart.data.labels.shift();
+        realTimeChart.data.datasets[0].data.shift();
+      }
+
+      
+      realTimeChart.update();
+    }
+
+    function fetchData() {
+      setTimeout(function() {
+        var newData = {
+          label: new Date().toLocaleTimeString(),
+          value: Math.random() * 100
+        };
+
+        
+        updateChart(newData);
+
+        // Fetch the next set of data
+        fetchData();
+      }, 1000); 
+    }
+
+    
+    fetchData();
+  </script>
+</body>
+</html>
